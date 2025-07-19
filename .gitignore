@@ -1,4 +1,5 @@
 .vscode/
+.idea/
 .target/
 
 Complete Java Maven JMH Benchmark Project for Byte.md

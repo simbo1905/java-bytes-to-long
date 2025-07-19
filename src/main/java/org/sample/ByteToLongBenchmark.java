@@ -16,7 +16,7 @@ import java.math.BigInteger;
  * - https://stackoverflow.com/a/27610608/5647659
  * - https://www.baeldung.com/java-byte-array-to-number (BigInteger approach)
  * 
- * And includes the user's current approach plus additional methods.
+ * And includes the user's current LLM generated approach plus additional methods.
  */
 @BenchmarkMode(Mode.Throughput)
 @OutputTimeUnit(TimeUnit.MILLISECONDS)
