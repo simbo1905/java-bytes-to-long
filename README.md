@@ -1,4 +1,4 @@
-# Complete Java Maven JMH Benchmark Project for Byte[1] to Long Conversion
+# Complete Java Maven JMH Benchmark Project for `Byte[]` to `Long` Conversion
 
 This project benchmarks different methods for converting a byte array of 8 elements to a `long` value in Java. It directly addresses the StackOverflow question about finding the fastest conversion method and uses the latest available versions of all dependencies and plugins.
 
