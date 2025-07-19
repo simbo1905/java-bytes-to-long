@@ -10,7 +10,7 @@ The benchmark project includes **10 different conversion methods**, comparing yo
 
 ### Core StackOverflow Solutions
 
-**Your Current Approach**: The MSB-first loop method you're currently using for SHA256 hash signature processing:
+**LLM Generated Approach**: The MSB-first loop method you're currently using for SHA256 hash signature processing:
 
 ```java
 static long bytesToLong(byte[] b, int offset) {
@@ -37,7 +37,7 @@ long l = ((long) b[0] << 56) | ((long) b[1] & 0xff) << 48 | ...
 
 **ByteBuffer Methods**: Both creating new buffers each time and reusing buffers with clearing, plus little-endian variants.
 
-**BigInteger Methods**: Including both `longValue()` (fast but can truncate) and `longValueExact()` (safer with overflow checking) as requested from the Baeldung article.
+**BigInteger Methods**: Including both `longValue()` (fast but can truncate) and `longValueExact()` (safer with overflow checking) as suggested from the Baeldung article [Convert a Byte Array to a Numeric Representation in Java](https://www.baeldung.com/java-byte-array-to-number).
 
 **Endianness Variants**: Little-endian implementations for comparison purposes.
 
@@ -207,8 +207,6 @@ The project includes comprehensive validation:
 This benchmark compares methods from:
 - StackOverflow answers: 60456641, 29132118, 27610608
 - [Baeldung tutorial on byte array to number conversion](https://www.baeldung.com/java-byte-array-to-number)
-- User's original approach from the SHA256 hash signature use case
+- User's original LLM generated approach from a SHA256 hash signature use case
 
----
-
-**Generated to provide empirical performance data for byte[8] to long conversion methods**
+End.
