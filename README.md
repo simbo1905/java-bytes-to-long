@@ -2,61 +2,6 @@
 
 This project benchmarks different methods for converting a byte array of 8 elements to a `long` value in Java. It directly addresses the StackOverflow question about finding the fastest conversion method and uses the latest available versions of all dependencies and plugins.
 
-## Project Overview
-
-The benchmark project includes **11 different conversion methods**, comparing various StackOverflow solutions against `ByteBuffer`, `BigInteger`, and manual bit-shifting approaches. All methods are properly validated to ensure they produce identical results before performance measurement begins.
-
-## Benchmarked Methods
-
-### Core StackOverflow Solutions
-
-**LLM Generated Approach**: The MSB-first loop method:
-
-```java
-static long bytesToLong(byte[] b, int offset) {
-  long result = 0;
-  for (int i = 0; i < 8; i++) {
-    result |= ((long) b[offset + i] & 0xff) << (56 - (i * 8));
-  }
-  return result;
-}
-```
-
-**StackOverflow Answer 60456641**: Int-based approach using `Integer.toUnsignedLong()` to combine high and low 32-bit values.
-
-**StackOverflow Answer 29132118**: Loop-based left-shift approach, implemented in both original form and Java 8+ version using constants like `Long.BYTES` and `Byte.SIZE`.
-
-**StackOverflow Answer 27610608**: Fast unrolled bit-shift version that manually handles each byte position:
-
-```java
-long l = ((long) b[0] << 56) | ((long) b[1] & 0xff) << 48 | ...
-```
-
-
-### Additional Methods
-
-**ByteBuffer Methods**: Both creating new buffers each time and reusing buffers with clearing, plus little-endian variants.
-
-**BigInteger Methods**: Including both `longValue()` (fast but can truncate) and `longValueExact()` (safer with overflow checking) as suggested from the Baeldung article [Convert a Byte Array to a Numeric Representation in Java](https://www.baeldung.com/java-byte-array-to-number).
-
-**Endianness Variants**: Little-endian implementations for comparison purposes.
-
-## Latest Dependencies and Plugins
-
-The project uses the most current versions as of July 2025:
-
-- **JMH**: 1.37 (latest stable)
-- **Maven Compiler Plugin**: 3.14.0
-- **Maven Shade Plugin**: 3.6.0
-- **Java Target**: 21
-- **Maven**: Requires 3.6.3+
-
-## Project Structure and Usage
-
-The complete project package includes cross-platform scripts, comprehensive documentation, and validation classes:
-
-### Quick Start Options
-
 **Unix/Linux/macOS**:
 
 ```bash
@@ -135,6 +80,31 @@ gantt
 | 9    | RBF  | Reusable ByteBuffer                       | `byteBufferReusableMethod`          | 329,183        | 19,997    |
 | 10   | BIX  | BigInteger `longValueExact()`             | `bigIntegerExactMethod`             | 84,224         | 69,008    |
 | 11   | BIG  | BigInteger `longValue()`                  | `bigIntegerMethod`                  | 64,563         | 9,963     |
+
+The test uses the byte array `{0xCA, 0xFE, 0xBA, 0xBE, 0xDE, 0xAD, (byte) 0xBE, (byte) 0xEF}` which produces the expected result `-3819410105021120273L` for big-endian interpretation.
+
+### **The Definitive Answer**
+
+**Use `ByteBuffer.wrap(bytes).getLong()`** for `byte[8]` to `long` conversion:
+
+```java
+// Best approach - fast, safe, and clear
+public static long bytesToLong(byte[] bytes) {
+    return ByteBuffer.wrap(bytes).getLong();
+}
+
+// With explicit endianness (if needed)
+public static long bytesToLongLittleEndian(byte[] bytes) {
+    return ByteBuffer.wrap(bytes).order(ByteOrder.LITTLE_ENDIAN).getLong();
+}
+```
+
+because:
+
+✅ **Fastest Performance**: 2x+ faster than any manual implementation
+✅ **Thread Safe**: No shared state or synchronization issues
+✅ **Endianness Control**: Explicit big-endian/little-endian handling
+✅ **Maintainable**: Simple, readable, and relies on battle-tested JDK code
 
 ## Benchmark Method Implementations
 
@@ -299,115 +269,15 @@ private static long bigIntegerMethod(byte[] bytes) {
 }
 ```
 
-## Validation and Safety Features
+## References
 
-The benchmark includes comprehensive validation:
+1. **[SO 27610608](https://stackoverflow.com/a/27610608)**
+    - Unrolled bit-shift implementation matches exactly [code][^4]
+2. **[SO 29132118](https://stackoverflow.com/a/29132118)**
+    - Loop-based shifting matches [code][^4] → [`stackOverflow29132118Loop`][^4]
+3. **[SO 60456641](https://stackoverflow.com/a/60456641)**
+    - High/low int combination matches [code][^4] → [`stackOverflow60456641Approach`][^4]
+4. **[Baeldung](https://www.baeldung.com/java-byte-array-to-number)**
+    - `BigInteger.longValue()` implementation matches [article]
 
-- **Setup Validation**: All methods are verified to produce identical results before benchmarking begins
-- **ConversionDemo Class**: Standalone demonstration showing results from all methods
-- **BigInteger Overflow Demonstration**: Shows the difference between `longValue()` and `longValueExact()` behavior
-- **Error Checking**: Scripts include Java and Maven version validation
-
-## Technical Implementation Details
-
-The benchmark follows JMH best practices:
-
-- **Proper JMH Annotations**: `@Benchmark`, `@BenchmarkMode(Mode.Throughput)`, `@State(Scope.Thread)`
-- **Controlled Test Environment**: Fixed test data, proper warmup and measurement iterations
-- **Dead Code Elimination Prevention**: Using `Blackhole.consume()` to ensure results aren't optimized away
-- **Fair Comparison**: Same test data across all methods, validated for correctness
-
-The test uses the byte array `{0xCA, 0xFE, 0xBA, 0xBE, 0xDE, 0xAD, (byte) 0xBE, (byte) 0xEF}` which produces the expected result `-3819410105021120273L` for big-endian interpretation.
-
-## Answering the StackOverflow Question
-
-This benchmark provides empirical data to definitively answer ["Fastest way to convert an byte[8] to long"](https://stackoverflow.com/questions/64229552/fastest-way-to-convert-an-byte8-to-long). The results show a clear winner and reveal important insights about JVM optimization. Do not attempt to write C-like code when you can use a JVM-optimized method like `ByteBuffer.wrap(bytes).getLong()`.
-
-### **The Clear Winner: ByteBuffer Methods**
-
-The benchmark results demonstrate that **`ByteBuffer` methods are dramatically faster** than any hand-written Java code:
-
-- **`ByteBuffer.wrap(bytes).getLong()`**: 1,692,506 ops/ms (fastest)
-- **Best manual implementation**: 804,078 ops/ms (Manual Big-Endian Loop)
-
-**`ByteBuffer` is more than 2x faster** than the best manual Java implementation.
-
-### **Why ByteBuffer Dominates: JVM Architecture & Native Optimizations**
-
-The massive performance difference isn't coincidental—it reflects fundamental advantages of using JDK-provided methods:
-
-#### **1. Native Code Optimizations**
-
-`ByteBuffer`'s `getLong()` method may be implemented with highly optimized native code that directly leverages (LLM generated answer use with caution):
-
-- **Architecture-specific CPU instructions** for multi-byte operations
-- **Memory alignment optimizations** that avoid byte-by-byte processing
-- **SIMD instructions** on supported architectures
-- **Direct memory access patterns** optimized for the target CPU on 64bit hosts
-
-#### **2. JVM Bounds Checking Elimination**
-
-While manual Java code *appears* fast and "C-like," it still suffers from:
-
-- **Array bounds checking** on every `b[offset + i]` access
-- **Individual byte operations** that may not be optimized into bulk operations
-- **Muli-teir compilation limitations** when trying to optimize complex bit manipulation loops
-
-`ByteBuffer` methods bypass many of these checks through:
-
-- **Bulk operation intrinsics** that the JVM recognizes and optimizes specially
-- **Bounds checking consolidation** that validates once rather than per-byte
-- **Direct native method calls** that skip user code Java-level safety overhead while having safety baked into them
-
-#### **3. Endianness Handling**
-
-`ByteBuffer` provides proper endianness handling without performance penalties:
-
-- **Hardware-optimized byte swapping** when needed
-- **Native endianness detection** and optimal code paths
-- **Zero-copy operations** when byte order matches system architecture
-
-### **The Reusable ByteBuffer Paradox**
-
-Interestingly, the reusable `ByteBuffer` approach (329,183 ops/ms) is significantly slower than creating new buffers. This demonstrates that:
-
-- **Buffer allocation overhead** is minimal compared to the native optimization benefits
-
-- **Buffer state management** (`clear`/`flip` operations) introduces overhead
-- **JVM allocation optimizations** make temporary objects very cheap
-
-### **Why Manual Implementations Fall Short**
-
-Even the most optimized manual Java implementations (like the unrolled bit-shifting approaches from StackOverflow) can't compete because:
-
-1. **Array Access Overhead**: Every `b[i]` access requires bounds checking
-2. **Bit Manipulation Cost**: Multiple shift and OR operations per byte
-3. **JIT Compilation Limits**: The JVM can't optimize complex loops as aggressively as purpose-built native methods
-4. **No Architecture Awareness**: Manual code can't adapt to specific CPU optimizations
-
-### **The Definitive Answer**
-
-**Use `ByteBuffer.wrap(bytes).getLong()`** for `byte[8]` to `long` conversion because:
-
-✅ **Fastest Performance**: 2x+ faster than any manual implementation
-✅ **Thread Safe**: No shared state or synchronization issues
-✅ **Endianness Control**: Explicit big-endian/little-endian handling
-✅ **Bounds Safe**: Extra-languistic array bounds validation
-✅ **Architecture Optimized**: Map leverages native CPU instructions
-✅ **Maintainable**: Simple, readable, and relies on battle-tested JDK code
-
-### **Code Recommendation**
-
-```java
-// Best approach - fast, safe, and clear
-public static long bytesToLong(byte[] bytes) {
-    return ByteBuffer.wrap(bytes).getLong();
-}
-
-// With explicit endianness (if needed)
-public static long bytesToLongLittleEndian(byte[] bytes) {
-    return ByteBuffer.wrap(bytes).order(ByteOrder.LITTLE_ENDIAN).getLong();
-}
-```
-
-**Bottom Line**: The JVM's native optimizations for `ByteBuffer` operations far exceed what's possible with manual Java code. Use the standard library—it's not just safer and cleaner, it's dramatically faster.
+End
