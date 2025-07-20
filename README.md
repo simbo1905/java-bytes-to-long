@@ -101,10 +101,42 @@ _Results from Run_20250720_131926.txt, commit 2b2fd01127bcccbb42d41c83237c579440
 ```mermaid
 xychart-beta
     title "Benchmark Results (operations per millisecond)"
-    x-axis ["ByteBuffer LE", "ByteBuffer", "Reusable", "SO-60456641", "SO-29132118", "SO-29132118-J8", "SO-27610608", "Current", "Unrolled LE", "BigInt Exact", "BigInteger"]
+    x-axis ["BIG", "BIX", "RBF", "ULE", "S60", "S29", "S29J", "S27", "CUR", "BBF", "BLE", "BBB"]
     y-axis "Operations per millisecond" 0 --> 1800000
-    bar [1687362, 1692506, 329183, 801049, 802454, 801958, 802662, 804078, 786972, 84224, 64563]
+    bar [64563, 84224, 329183, 786972, 801049, 802454, 801958, 802662, 804078, 1687362, 1692506]
 ```
+
+### Test Code Legend
+
+| Code | Test Name | Description |
+|------|-----------|-------------|
+| BIG | bigIntegerMethod | BigInteger with longValue() |
+| BIX | bigIntegerExactMethod | BigInteger with longValueExact() |
+| RBF | byteBufferReusableMethod | Reusable ByteBuffer (requires clearing) |
+| ULE | unrolledLittleEndian | Unrolled little-endian bit shifting |
+| S60 | stackOverflow60456641Approach | High/low int approach with toUnsignedLong |
+| S29 | stackOverflow29132118Loop | Loop with left shift |
+| S29J | stackOverflow29132118LoopJava8 | Java 8+ version with constants |
+| S27 | stackOverflow27610608Unrolled | Fast unrolled big-endian bit shifting |
+| CUR | userCurrentApproach | Current MSB-first loop approach |
+| BLE | byteBufferLittleEndian | ByteBuffer little-endian |
+| BBB | byteBufferMethod | ByteBuffer big-endian (new buffer each time) |
+
+### Performance Ranking (Fastest to Slowest)
+
+| Rank | Code | Java Method Name | Description | File Location |
+|------|------|------------------|-------------|---------------|
+| 1 | BBB | byteBufferMethod | ByteBuffer big-endian (new buffer each time) | ByteToLongBenchmark.java:158 |
+| 2 | BLE | byteBufferLittleEndian | ByteBuffer little-endian | ByteToLongBenchmark.java:249 |
+| 3 | CUR | userCurrentApproach | Current MSB-first loop approach | ByteToLongBenchmark.java:77 |
+| 4 | S27 | stackOverflow27610608Unrolled | Fast unrolled big-endian bit shifting | ByteToLongBenchmark.java:140 |
+| 5 | S29J | stackOverflow29132118LoopJava8 | Java 8+ version with constants | ByteToLongBenchmark.java:122 |
+| 6 | S29 | stackOverflow29132118Loop | Loop with left shift | ByteToLongBenchmark.java:104 |
+| 7 | S60 | stackOverflow60456641Approach | High/low int approach with toUnsignedLong | ByteToLongBenchmark.java:85 |
+| 8 | ULE | unrolledLittleEndian | Unrolled little-endian bit shifting | ByteToLongBenchmark.java:231 |
+| 9 | RBF | byteBufferReusableMethod | Reusable ByteBuffer (requires clearing) | ByteToLongBenchmark.java:167 |
+| 10 | BIX | bigIntegerExactMethod | BigInteger with longValueExact() (safer) | ByteToLongBenchmark.java:213 |
+| 11 | BIG | bigIntegerMethod | BigInteger with longValue() (can truncate) | ByteToLongBenchmark.java:203 |
 
 ## Validation and Safety Features
 
