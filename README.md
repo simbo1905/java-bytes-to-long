@@ -96,6 +96,41 @@ Here are the actual benchmark results from running the JMH tests:
 | ByteToLongBenchmark.unrolledLittleEndian | thrpt | 5   | 789129.837   | 51536.415  | ops/ms |
 | ByteToLongBenchmark.userCurrentApproach  | thrpt | 5   | 787998.183   | 63652.707  | ops/ms |
 
+```mermaid
+gantt
+    title Benchmark Results (ops/ms) with Error Margins
+    dateFormat X
+    axisFormat %s
+    
+    section ByteBuffer
+    ByteBuffer LE     : 0, 1662829
+    Error ±54626     : 1608203, 1717455
+    ByteBuffer       : 0, 1613866
+    Error ±312452    : 1301414, 1926318
+    Reusable Buffer  : 0, 330971
+    Error ±3566      : 327405, 334537
+    
+    section Stack Overflow
+    SO 60456641      : 0, 793271
+    Error ±17655     : 775616, 810926
+    SO 29132118 Loop : 0, 789215
+    Error ±51719     : 737496, 840934
+    SO 29132118 Java8: 0, 781207
+    Error ±87143     : 694064, 868350
+    SO 27610608      : 0, 784290
+    Error ±45660     : 738630, 829950
+    
+    section User Methods
+    Current Approach : 0, 787998
+    Error ±63653    : 724345, 851651
+    
+    section BigInteger
+    BigInteger Exact : 0, 96230
+    Error ±4848     : 91382, 101078
+    BigInteger      : 0, 60344
+    Error ±4020     : 56324, 64364
+```
+
 ### Performance Chart Generation
 
 You can generate a visual performance chart using the provided Python scripts.
