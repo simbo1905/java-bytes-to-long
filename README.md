@@ -283,11 +283,11 @@ java -jar target/benchmarks.jar
 ## References
 
 1. **[SO 27610608](https://stackoverflow.com/a/27610608)**
-    - Unrolled bit-shift implementation matches exactly [code][^4]
+    - Unrolled bit-shift implementation
 2. **[SO 29132118](https://stackoverflow.com/a/29132118)**
-    - Loop-based shifting matches [code][^4] → [`stackOverflow29132118Loop`][^4]
+    - Loop-based shifting
 3. **[SO 60456641](https://stackoverflow.com/a/60456641)**
-    - High/low int combination matches [code][^4] → [`stackOverflow60456641Approach`][^4]
+    - High/low int combination
 4. **[Baeldung](https://www.baeldung.com/java-byte-array-to-number)**
     - `BigInteger.longValue()` implementation matches [article]
 
