@@ -99,36 +99,11 @@ Here are the actual benchmark results from running the JMH tests:
 _Results from Run_20250720_131926.txt, commit 2b2fd01127bcccbb42d41c83237c579440fbfd7b_
 
 ```mermaid
-graph LR
-    subgraph "BigInteger"
-        A["bigIntegerExactMethod (84,224)"]
-        B["bigIntegerMethod (64,563)"]
-    end
-    subgraph "ByteBuffer"
-        C["byteBufferLittleEndian (1,687,362)"]
-        D["byteBufferMethod (1,692,506)"]
-        E["byteBufferReusableMethod (329,182)"]
-    end
-    subgraph "Stack Overflow & User"
-        F["stackOverflow27610608Unrolled (802,661)"]
-        G["stackOverflow29132118Loop (802,454)"]
-        H["stackOverflow29132118LoopJava8 (801,957)"]
-        I["stackOverflow60456641Approach (801,049)"]
-        J["unrolledLittleEndian (786,972)"]
-        K["userCurrentApproach (804,078)"]
-    end
-
-    style A fill:#d15a5a
-    style B fill:#d15a5a
-    style C fill:#5ad16d
-    style D fill:#5ad16d
-    style E fill:#5ad16d
-    style F fill:#5a8cd1
-    style G fill:#5a8cd1
-    style H fill:#5a8cd1
-    style I fill:#5a8cd1
-    style J fill:#5a8cd1
-    style K fill:#c8d15a
+xychart-beta
+    title "Benchmark Results (ops/ms) with Error Margins"
+    x-axis ["ByteBuffer LE", "ByteBuffer", "Reusable Buffer", "SO 60456641", "SO 29132118 Loop", "SO 29132118 Java8", "SO 27610608", "Current Approach", "Unrolled LE", "BigInteger Exact", "BigInteger"]
+    y-axis "Operations per millisecond" 0 --> 1800000
+    bar [1687362, 1692506, 329183, 801049, 802454, 801958, 802662, 804078, 786972, 84224, 64563]
 ```
 
 ## Validation and Safety Features
