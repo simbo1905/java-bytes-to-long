@@ -84,39 +84,54 @@ Here are the actual benchmark results from running the JMH tests:
 
 | Benchmark                                | Mode  | Cnt | Score        | Error      | Units  |
 |------------------------------------------|-------|-----|--------------|------------|--------|
-| ByteToLongBenchmark.bigIntegerExactMethod | thrpt | 5   | 96229.896    | 4847.597   | ops/ms |
-| ByteToLongBenchmark.bigIntegerMethod     | thrpt | 5   | 60343.672    | 4019.967   | ops/ms |
-| ByteToLongBenchmark.byteBufferLittleEndian | thrpt | 5   | 1662828.645  | 54626.448  | ops/ms |
-| ByteToLongBenchmark.byteBufferMethod     | thrpt | 5   | 1613866.439  | 312452.043 | ops/ms |
-| ByteToLongBenchmark.byteBufferReusableMethod | thrpt | 5   | 330970.633   | 3565.627   | ops/ms |
-| ByteToLongBenchmark.stackOverflow27610608Unrolled | thrpt | 5   | 784290.051   | 45660.128  | ops/ms |
-| ByteToLongBenchmark.stackOverflow29132118Loop | thrpt | 5   | 789214.982   | 51718.567  | ops/ms |
-| ByteToLongBenchmark.stackOverflow29132118LoopJava8 | thrpt | 5   | 781207.049   | 87142.702  | ops/ms |
-| ByteToLongBenchmark.stackOverflow60456641Approach | thrpt | 5   | 793270.893   | 17655.191  | ops/ms |
-| ByteToLongBenchmark.unrolledLittleEndian | thrpt | 5   | 789129.837   | 51536.415  | ops/ms |
-| ByteToLongBenchmark.userCurrentApproach  | thrpt | 5   | 787998.183   | 63652.707  | ops/ms |
+| ByteToLongBenchmark.bigIntegerExactMethod | thrpt | 5   | 84224.062    | 69008.005  | ops/ms |
+| ByteToLongBenchmark.bigIntegerMethod     | thrpt | 5   | 64563.148    | 9962.841   | ops/ms |
+| ByteToLongBenchmark.byteBufferLittleEndian | thrpt | 5   | 1687362.073  | 61722.792  | ops/ms |
+| ByteToLongBenchmark.byteBufferMethod     | thrpt | 5   | 1692506.030  | 7690.677   | ops/ms |
+| ByteToLongBenchmark.byteBufferReusableMethod | thrpt | 5   | 329182.835   | 19997.174  | ops/ms |
+| ByteToLongBenchmark.stackOverflow27610608Unrolled | thrpt | 5   | 802661.975   | 4791.386   | ops/ms |
+| ByteToLongBenchmark.stackOverflow29132118Loop | thrpt | 5   | 802454.405   | 11041.986  | ops/ms |
+| ByteToLongBenchmark.stackOverflow29132118LoopJava8 | thrpt | 5   | 801957.668   | 11585.242  | ops/ms |
+| ByteToLongBenchmark.stackOverflow60456641Approach | thrpt | 5   | 801049.324   | 24973.042  | ops/ms |
+| ByteToLongBenchmark.unrolledLittleEndian | thrpt | 5   | 786972.212   | 124663.965 | ops/ms |
+| ByteToLongBenchmark.userCurrentApproach  | thrpt | 5   | 804078.365   | 5235.128   | ops/ms |
 
-### Performance Chart Generation
+_Results from Run_20250720_131926.txt, commit 2b2fd01127bcccbb42d41c83237c579440fbfd7b_
 
-You can generate a visual performance chart using the provided Python scripts.
-
-1.  **Create and Activate a Python Virtual Environment:**
-    ```bash
-    python3 -m venv venv
-    source venv/bin/activate  # On Windows, use `.\venv\Scripts\activate`
-    ```
-
-2.  **Install Required Python Packages:**
-    ```bash
-    pip install plotly pandas matplotlib kaleido
-    ```
-
-3.  **Generate the Chart:**
-    After running the JMH benchmarks (which generates `jmh-result.json` in the `target` directory), run the chart script using the virtual environment's Python interpreter:
-    ```bash
-    ./venv/bin/python3 target/chart_script.py target/jmh-result.json
-    ```
-    This will generate a `performance_chart.png` (or similar) in the `target` directory.
+```mermaid
+gantt
+    title Benchmark Results (ops/ms) with Error Margins
+    dateFormat X
+    axisFormat %s
+    
+    section ByteBuffer
+    ByteBuffer LE     : 0, 1687362.073
+    Error ±61722.792  : 1625639.281, 1749084.864
+    ByteBuffer       : 0, 1692506.030
+    Error ±7690.677   : 1684815.353, 1700196.707
+    Reusable Buffer  : 0, 329182.835
+    Error ±19997.174  : 309185.660, 349180.009
+    
+    section Stack Overflow
+    SO 60456641      : 0, 801049.324
+    Error ±24973.042  : 776076.281, 826022.366
+    SO 29132118 Loop : 0, 802454.405
+    Error ±11041.986  : 791412.418, 813496.391
+    SO 29132118 Java8: 0, 801957.668
+    Error ±11585.242  : 790372.426, 813542.911
+    SO 27610608      : 0, 802661.975
+    Error ±4791.386   : 797870.589, 807453.361
+    
+    section User Methods
+    Current Approach : 0, 804078.365
+    Error ±5235.128   : 798843.237, 809313.493
+    
+    section BigInteger
+    BigInteger Exact : 0, 84224.062
+    Error ±69008.005  : 15216.057, 153232.067
+    BigInteger      : 0, 64563.148
+    Error ±9962.841   : 54600.307, 74525.989
+```
 
 ## Validation and Safety Features
 

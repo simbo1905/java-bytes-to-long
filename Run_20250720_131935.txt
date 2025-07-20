@@ -1,0 +1,422 @@
+# JMH version: 1.37
+# VM version: JDK 24, OpenJDK 64-Bit Server VM, 24+36-3646
+# VM invoker: /Users/consensussolutions/Library/Java/JavaVirtualMachines/openjdk-24/Contents/Home/bin/java
+# VM options: <none>
+# Blackhole mode: compiler (auto-detected, use -Djmh.blackhole.autoDetect=false to disable)
+# Warmup: 5 iterations, 1 s each
+# Measurement: 5 iterations, 1 s each
+# Timeout: 10 min per iteration
+# Threads: 1 thread, will synchronize iterations
+# Benchmark mode: Throughput, ops/time
+# Benchmark: org.sample.ByteToLongBenchmark.bigIntegerExactMethod
+
+# Run progress: 0.00% complete, ETA 00:01:50
+# Fork: 1 of 1
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::objectFieldOffset has been called by org.openjdk.jmh.util.Utils (file:/Users/Shared/java-bytes-to-long/target/benchmarks.jar)
+WARNING: Please consider reporting this to the maintainers of class org.openjdk.jmh.util.Utils
+WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
+# Warmup Iteration   1: 86349.306 ops/ms
+# Warmup Iteration   2: 89420.962 ops/ms
+# Warmup Iteration   3: 97410.398 ops/ms
+# Warmup Iteration   4: 97388.623 ops/ms
+# Warmup Iteration   5: 97978.444 ops/ms
+Iteration   1: 98146.543 ops/ms
+Iteration   2: 66910.844 ops/ms
+Iteration   3: 62486.681 ops/ms
+Iteration   4: 95591.459 ops/ms
+Iteration   5: 97984.782 ops/ms
+
+
+Result "org.sample.ByteToLongBenchmark.bigIntegerExactMethod":
+  84224.062 ±(99.9%) 69008.005 ops/ms [Average]
+  (min, avg, max) = (62486.681, 84224.062, 98146.543), stdev = 17921.160
+  CI (99.9%): [15216.057, 153232.067] (assumes normal distribution)
+
+
+# JMH version: 1.37
+# VM version: JDK 24, OpenJDK 64-Bit Server VM, 24+36-3646
+# VM invoker: /Users/consensussolutions/Library/Java/JavaVirtualMachines/openjdk-24/Contents/Home/bin/java
+# VM options: <none>
+# Blackhole mode: compiler (auto-detected, use -Djmh.blackhole.autoDetect=false to disable)
+# Warmup: 5 iterations, 1 s each
+# Measurement: 5 iterations, 1 s each
+# Timeout: 10 min per iteration
+# Threads: 1 thread, will synchronize iterations
+# Benchmark mode: Throughput, ops/time
+# Benchmark: org.sample.ByteToLongBenchmark.bigIntegerMethod
+
+# Run progress: 9.09% complete, ETA 00:01:42
+# Fork: 1 of 1
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::objectFieldOffset has been called by org.openjdk.jmh.util.Utils (file:/Users/Shared/java-bytes-to-long/target/benchmarks.jar)
+WARNING: Please consider reporting this to the maintainers of class org.openjdk.jmh.util.Utils
+WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
+# Warmup Iteration   1: 74718.153 ops/ms
+# Warmup Iteration   2: 86160.919 ops/ms
+# Warmup Iteration   3: 72548.174 ops/ms
+# Warmup Iteration   4: 71004.065 ops/ms
+# Warmup Iteration   5: 63827.654 ops/ms
+Iteration   1: 60157.056 ops/ms
+Iteration   2: 64679.791 ops/ms
+Iteration   3: 65925.585 ops/ms
+Iteration   4: 66804.367 ops/ms
+Iteration   5: 65248.940 ops/ms
+
+
+Result "org.sample.ByteToLongBenchmark.bigIntegerMethod":
+  64563.148 ±(99.9%) 9962.841 ops/ms [Average]
+  (min, avg, max) = (60157.056, 64563.148, 66804.367), stdev = 2587.318
+  CI (99.9%): [54600.307, 74525.989] (assumes normal distribution)
+
+
+# JMH version: 1.37
+# VM version: JDK 24, OpenJDK 64-Bit Server VM, 24+36-3646
+# VM invoker: /Users/consensussolutions/Library/Java/JavaVirtualMachines/openjdk-24/Contents/Home/bin/java
+# VM options: <none>
+# Blackhole mode: compiler (auto-detected, use -Djmh.blackhole.autoDetect=false to disable)
+# Warmup: 5 iterations, 1 s each
+# Measurement: 5 iterations, 1 s each
+# Timeout: 10 min per iteration
+# Threads: 1 thread, will synchronize iterations
+# Benchmark mode: Throughput, ops/time
+# Benchmark: org.sample.ByteToLongBenchmark.byteBufferLittleEndian
+
+# Run progress: 18.18% complete, ETA 00:01:32
+# Fork: 1 of 1
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::objectFieldOffset has been called by org.openjdk.jmh.util.Utils (file:/Users/Shared/java-bytes-to-long/target/benchmarks.jar)
+WARNING: Please consider reporting this to the maintainers of class org.openjdk.jmh.util.Utils
+WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
+# Warmup Iteration   1: 1664035.316 ops/ms
+# Warmup Iteration   2: 1444580.780 ops/ms
+# Warmup Iteration   3: 1687767.172 ops/ms
+# Warmup Iteration   4: 1453349.647 ops/ms
+# Warmup Iteration   5: 1696254.616 ops/ms
+Iteration   1: 1659275.258 ops/ms
+Iteration   2: 1695536.895 ops/ms
+Iteration   3: 1691819.775 ops/ms
+Iteration   4: 1699136.262 ops/ms
+Iteration   5: 1691042.174 ops/ms
+
+
+Result "org.sample.ByteToLongBenchmark.byteBufferLittleEndian":
+  1687362.073 ±(99.9%) 61722.792 ops/ms [Average]
+  (min, avg, max) = (1659275.258, 1687362.073, 1699136.262), stdev = 16029.213
+  CI (99.9%): [1625639.281, 1749084.864] (assumes normal distribution)
+
+
+# JMH version: 1.37
+# VM version: JDK 24, OpenJDK 64-Bit Server VM, 24+36-3646
+# VM invoker: /Users/consensussolutions/Library/Java/JavaVirtualMachines/openjdk-24/Contents/Home/bin/java
+# VM options: <none>
+# Blackhole mode: compiler (auto-detected, use -Djmh.blackhole.autoDetect=false to disable)
+# Warmup: 5 iterations, 1 s each
+# Measurement: 5 iterations, 1 s each
+# Timeout: 10 min per iteration
+# Threads: 1 thread, will synchronize iterations
+# Benchmark mode: Throughput, ops/time
+# Benchmark: org.sample.ByteToLongBenchmark.byteBufferMethod
+
+# Run progress: 27.27% complete, ETA 00:01:21
+# Fork: 1 of 1
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::objectFieldOffset has been called by org.openjdk.jmh.util.Utils (file:/Users/Shared/java-bytes-to-long/target/benchmarks.jar)
+WARNING: Please consider reporting this to the maintainers of class org.openjdk.jmh.util.Utils
+WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
+# Warmup Iteration   1: 1646473.529 ops/ms
+# Warmup Iteration   2: 1671359.036 ops/ms
+# Warmup Iteration   3: 1695992.159 ops/ms
+# Warmup Iteration   4: 1687004.701 ops/ms
+# Warmup Iteration   5: 1694652.248 ops/ms
+Iteration   1: 1690848.204 ops/ms
+Iteration   2: 1694913.625 ops/ms
+Iteration   3: 1690689.780 ops/ms
+Iteration   4: 1694370.358 ops/ms
+Iteration   5: 1691708.183 ops/ms
+
+
+Result "org.sample.ByteToLongBenchmark.byteBufferMethod":
+  1692506.030 ±(99.9%) 7690.677 ops/ms [Average]
+  (min, avg, max) = (1690689.780, 1692506.030, 1694913.625), stdev = 1997.244
+  CI (99.9%): [1684815.353, 1700196.707] (assumes normal distribution)
+
+
+# JMH version: 1.37
+# VM version: JDK 24, OpenJDK 64-Bit Server VM, 24+36-3646
+# VM invoker: /Users/consensussolutions/Library/Java/JavaVirtualMachines/openjdk-24/Contents/Home/bin/java
+# VM options: <none>
+# Blackhole mode: compiler (auto-detected, use -Djmh.blackhole.autoDetect=false to disable)
+# Warmup: 5 iterations, 1 s each
+# Measurement: 5 iterations, 1 s each
+# Timeout: 10 min per iteration
+# Threads: 1 thread, will synchronize iterations
+# Benchmark mode: Throughput, ops/time
+# Benchmark: org.sample.ByteToLongBenchmark.byteBufferReusableMethod
+
+# Run progress: 36.36% complete, ETA 00:01:11
+# Fork: 1 of 1
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::objectFieldOffset has been called by org.openjdk.jmh.util.Utils (file:/Users/Shared/java-bytes-to-long/target/benchmarks.jar)
+WARNING: Please consider reporting this to the maintainers of class org.openjdk.jmh.util.Utils
+WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
+# Warmup Iteration   1: 330191.693 ops/ms
+# Warmup Iteration   2: 331860.287 ops/ms
+# Warmup Iteration   3: 330433.158 ops/ms
+# Warmup Iteration   4: 330328.223 ops/ms
+# Warmup Iteration   5: 331566.774 ops/ms
+Iteration   1: 334669.128 ops/ms
+Iteration   2: 332206.400 ops/ms
+Iteration   3: 329223.824 ops/ms
+Iteration   4: 328912.150 ops/ms
+Iteration   5: 320902.672 ops/ms
+
+
+Result "org.sample.ByteToLongBenchmark.byteBufferReusableMethod":
+  329182.835 ±(99.9%) 19997.174 ops/ms [Average]
+  (min, avg, max) = (320902.672, 329182.835, 334669.128), stdev = 5193.203
+  CI (99.9%): [309185.660, 349180.009] (assumes normal distribution)
+
+
+# JMH version: 1.37
+# VM version: JDK 24, OpenJDK 64-Bit Server VM, 24+36-3646
+# VM invoker: /Users/consensussolutions/Library/Java/JavaVirtualMachines/openjdk-24/Contents/Home/bin/java
+# VM options: <none>
+# Blackhole mode: compiler (auto-detected, use -Djmh.blackhole.autoDetect=false to disable)
+# Warmup: 5 iterations, 1 s each
+# Measurement: 5 iterations, 1 s each
+# Timeout: 10 min per iteration
+# Threads: 1 thread, will synchronize iterations
+# Benchmark mode: Throughput, ops/time
+# Benchmark: org.sample.ByteToLongBenchmark.stackOverflow27610608Unrolled
+
+# Run progress: 45.45% complete, ETA 00:01:01
+# Fork: 1 of 1
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::objectFieldOffset has been called by org.openjdk.jmh.util.Utils (file:/Users/Shared/java-bytes-to-long/target/benchmarks.jar)
+WARNING: Please consider reporting this to the maintainers of class org.openjdk.jmh.util.Utils
+WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
+# Warmup Iteration   1: 800898.971 ops/ms
+# Warmup Iteration   2: 803001.370 ops/ms
+# Warmup Iteration   3: 802166.568 ops/ms
+# Warmup Iteration   4: 805278.903 ops/ms
+# Warmup Iteration   5: 803421.634 ops/ms
+Iteration   1: 804596.040 ops/ms
+Iteration   2: 802926.364 ops/ms
+Iteration   3: 801332.416 ops/ms
+Iteration   4: 802572.117 ops/ms
+Iteration   5: 801882.939 ops/ms
+
+
+Result "org.sample.ByteToLongBenchmark.stackOverflow27610608Unrolled":
+  802661.975 ±(99.9%) 4791.386 ops/ms [Average]
+  (min, avg, max) = (801332.416, 802661.975, 804596.040), stdev = 1244.308
+  CI (99.9%): [797870.589, 807453.361] (assumes normal distribution)
+
+
+# JMH version: 1.37
+# VM version: JDK 24, OpenJDK 64-Bit Server VM, 24+36-3646
+# VM invoker: /Users/consensussolutions/Library/Java/JavaVirtualMachines/openjdk-24/Contents/Home/bin/java
+# VM options: <none>
+# Blackhole mode: compiler (auto-detected, use -Djmh.blackhole.autoDetect=false to disable)
+# Warmup: 5 iterations, 1 s each
+# Measurement: 5 iterations, 1 s each
+# Timeout: 10 min per iteration
+# Threads: 1 thread, will synchronize iterations
+# Benchmark mode: Throughput, ops/time
+# Benchmark: org.sample.ByteToLongBenchmark.stackOverflow29132118Loop
+
+# Run progress: 54.55% complete, ETA 00:00:51
+# Fork: 1 of 1
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::objectFieldOffset has been called by org.openjdk.jmh.util.Utils (file:/Users/Shared/java-bytes-to-long/target/benchmarks.jar)
+WARNING: Please consider reporting this to the maintainers of class org.openjdk.jmh.util.Utils
+WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
+# Warmup Iteration   1: 797890.706 ops/ms
+# Warmup Iteration   2: 797510.794 ops/ms
+# Warmup Iteration   3: 802316.374 ops/ms
+# Warmup Iteration   4: 803100.525 ops/ms
+# Warmup Iteration   5: 798272.008 ops/ms
+Iteration   1: 801005.135 ops/ms
+Iteration   2: 803944.980 ops/ms
+Iteration   3: 798117.415 ops/ms
+Iteration   4: 804085.686 ops/ms
+Iteration   5: 805118.808 ops/ms
+
+
+Result "org.sample.ByteToLongBenchmark.stackOverflow29132118Loop":
+  802454.405 ±(99.9%) 11041.986 ops/ms [Average]
+  (min, avg, max) = (798117.415, 802454.405, 805118.808), stdev = 2867.569
+  CI (99.9%): [791412.418, 813496.391] (assumes normal distribution)
+
+
+# JMH version: 1.37
+# VM version: JDK 24, OpenJDK 64-Bit Server VM, 24+36-3646
+# VM invoker: /Users/consensussolutions/Library/Java/JavaVirtualMachines/openjdk-24/Contents/Home/bin/java
+# VM options: <none>
+# Blackhole mode: compiler (auto-detected, use -Djmh.blackhole.autoDetect=false to disable)
+# Warmup: 5 iterations, 1 s each
+# Measurement: 5 iterations, 1 s each
+# Timeout: 10 min per iteration
+# Threads: 1 thread, will synchronize iterations
+# Benchmark mode: Throughput, ops/time
+# Benchmark: org.sample.ByteToLongBenchmark.stackOverflow29132118LoopJava8
+
+# Run progress: 63.64% complete, ETA 00:00:40
+# Fork: 1 of 1
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::objectFieldOffset has been called by org.openjdk.jmh.util.Utils (file:/Users/Shared/java-bytes-to-long/target/benchmarks.jar)
+WARNING: Please consider reporting this to the maintainers of class org.openjdk.jmh.util.Utils
+WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
+# Warmup Iteration   1: 799131.563 ops/ms
+# Warmup Iteration   2: 799829.053 ops/ms
+# Warmup Iteration   3: 803954.039 ops/ms
+# Warmup Iteration   4: 797866.737 ops/ms
+# Warmup Iteration   5: 797815.496 ops/ms
+Iteration   1: 799553.769 ops/ms
+Iteration   2: 799072.431 ops/ms
+Iteration   3: 805387.350 ops/ms
+Iteration   4: 804962.617 ops/ms
+Iteration   5: 800812.174 ops/ms
+
+
+Result "org.sample.ByteToLongBenchmark.stackOverflow29132118LoopJava8":
+  801957.668 ±(99.9%) 11585.242 ops/ms [Average]
+  (min, avg, max) = (799072.431, 801957.668, 805387.350), stdev = 3008.651
+  CI (99.9%): [790372.426, 813542.911] (assumes normal distribution)
+
+
+# JMH version: 1.37
+# VM version: JDK 24, OpenJDK 64-Bit Server VM, 24+36-3646
+# VM invoker: /Users/consensussolutions/Library/Java/JavaVirtualMachines/openjdk-24/Contents/Home/bin/java
+# VM options: <none>
+# Blackhole mode: compiler (auto-detected, use -Djmh.blackhole.autoDetect=false to disable)
+# Warmup: 5 iterations, 1 s each
+# Measurement: 5 iterations, 1 s each
+# Timeout: 10 min per iteration
+# Threads: 1 thread, will synchronize iterations
+# Benchmark mode: Throughput, ops/time
+# Benchmark: org.sample.ByteToLongBenchmark.stackOverflow60456641Approach
+
+# Run progress: 72.73% complete, ETA 00:00:30
+# Fork: 1 of 1
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::objectFieldOffset has been called by org.openjdk.jmh.util.Utils (file:/Users/Shared/java-bytes-to-long/target/benchmarks.jar)
+WARNING: Please consider reporting this to the maintainers of class org.openjdk.jmh.util.Utils
+WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
+# Warmup Iteration   1: 800858.466 ops/ms
+# Warmup Iteration   2: 796621.444 ops/ms
+# Warmup Iteration   3: 802616.489 ops/ms
+# Warmup Iteration   4: 804800.184 ops/ms
+# Warmup Iteration   5: 805588.407 ops/ms
+Iteration   1: 803284.840 ops/ms
+Iteration   2: 805297.693 ops/ms
+Iteration   3: 789550.695 ops/ms
+Iteration   4: 804006.263 ops/ms
+Iteration   5: 803107.127 ops/ms
+
+
+Result "org.sample.ByteToLongBenchmark.stackOverflow60456641Approach":
+  801049.324 ±(99.9%) 24973.042 ops/ms [Average]
+  (min, avg, max) = (789550.695, 801049.324, 805297.693), stdev = 6485.420
+  CI (99.9%): [776076.281, 826022.366] (assumes normal distribution)
+
+
+# JMH version: 1.37
+# VM version: JDK 24, OpenJDK 64-Bit Server VM, 24+36-3646
+# VM invoker: /Users/consensussolutions/Library/Java/JavaVirtualMachines/openjdk-24/Contents/Home/bin/java
+# VM options: <none>
+# Blackhole mode: compiler (auto-detected, use -Djmh.blackhole.autoDetect=false to disable)
+# Warmup: 5 iterations, 1 s each
+# Measurement: 5 iterations, 1 s each
+# Timeout: 10 min per iteration
+# Threads: 1 thread, will synchronize iterations
+# Benchmark mode: Throughput, ops/time
+# Benchmark: org.sample.ByteToLongBenchmark.unrolledLittleEndian
+
+# Run progress: 81.82% complete, ETA 00:00:20
+# Fork: 1 of 1
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::objectFieldOffset has been called by org.openjdk.jmh.util.Utils (file:/Users/Shared/java-bytes-to-long/target/benchmarks.jar)
+WARNING: Please consider reporting this to the maintainers of class org.openjdk.jmh.util.Utils
+WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
+# Warmup Iteration   1: 754834.571 ops/ms
+# Warmup Iteration   2: 789987.304 ops/ms
+# Warmup Iteration   3: 804815.817 ops/ms
+# Warmup Iteration   4: 805308.928 ops/ms
+# Warmup Iteration   5: 805253.738 ops/ms
+Iteration   1: 729675.621 ops/ms
+Iteration   2: 805038.697 ops/ms
+Iteration   3: 805390.616 ops/ms
+Iteration   4: 793675.247 ops/ms
+Iteration   5: 801080.877 ops/ms
+
+
+Result "org.sample.ByteToLongBenchmark.unrolledLittleEndian":
+  786972.212 ±(99.9%) 124663.965 ops/ms [Average]
+  (min, avg, max) = (729675.621, 786972.212, 805390.616), stdev = 32374.836
+  CI (99.9%): [662308.247, 911636.177] (assumes normal distribution)
+
+
+# JMH version: 1.37
+# VM version: JDK 24, OpenJDK 64-Bit Server VM, 24+36-3646
+# VM invoker: /Users/consensussolutions/Library/Java/JavaVirtualMachines/openjdk-24/Contents/Home/bin/java
+# VM options: <none>
+# Blackhole mode: compiler (auto-detected, use -Djmh.blackhole.autoDetect=false to disable)
+# Warmup: 5 iterations, 1 s each
+# Measurement: 5 iterations, 1 s each
+# Timeout: 10 min per iteration
+# Threads: 1 thread, will synchronize iterations
+# Benchmark mode: Throughput, ops/time
+# Benchmark: org.sample.ByteToLongBenchmark.userCurrentApproach
+
+# Run progress: 90.91% complete, ETA 00:00:10
+# Fork: 1 of 1
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::objectFieldOffset has been called by org.openjdk.jmh.util.Utils (file:/Users/Shared/java-bytes-to-long/target/benchmarks.jar)
+WARNING: Please consider reporting this to the maintainers of class org.openjdk.jmh.util.Utils
+WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
+# Warmup Iteration   1: 791948.954 ops/ms
+# Warmup Iteration   2: 799634.341 ops/ms
+# Warmup Iteration   3: 801065.884 ops/ms
+# Warmup Iteration   4: 803846.940 ops/ms
+# Warmup Iteration   5: 803222.551 ops/ms
+Iteration   1: 804895.499 ops/ms
+Iteration   2: 804632.772 ops/ms
+Iteration   3: 801823.341 ops/ms
+Iteration   4: 803833.453 ops/ms
+Iteration   5: 805206.759 ops/ms
+
+
+Result "org.sample.ByteToLongBenchmark.userCurrentApproach":
+  804078.365 ±(99.9%) 5235.128 ops/ms [Average]
+  (min, avg, max) = (801823.341, 804078.365, 805206.759), stdev = 1359.546
+  CI (99.9%): [798843.237, 809313.493] (assumes normal distribution)
+
+
+# Run complete. Total time: 00:01:52
+
+REMEMBER: The numbers below are just data. To gain reusable insights, you need to follow up on
+why the numbers are the way they are. Use profilers (see -prof, -lprof), design factorial
+experiments, perform baseline and negative tests that provide experimental control, make sure
+the benchmarking environment is safe on JVM/OS/HW level, ask for reviews from the domain experts.
+Do not assume the numbers tell you what you want them to tell.
+
+NOTE: Current JVM experimentally supports Compiler Blackholes, and they are in use. Please exercise
+extra caution when trusting the results, look into the generated code to check the benchmark still
+works, and factor in a small probability of new VM bugs. Additionally, while comparisons between
+different JVMs are already problematic, the performance difference caused by different Blackhole
+modes can be very significant. Please make sure you use the consistent Blackhole mode for comparisons.
+
+Benchmark                                            Mode  Cnt        Score        Error   Units
+ByteToLongBenchmark.bigIntegerExactMethod           thrpt    5    84224.062 ±  69008.005  ops/ms
+ByteToLongBenchmark.bigIntegerMethod                thrpt    5    64563.148 ±   9962.841  ops/ms
+ByteToLongBenchmark.byteBufferLittleEndian          thrpt    5  1687362.073 ±  61722.792  ops/ms
+ByteToLongBenchmark.byteBufferMethod                thrpt    5  1692506.030 ±   7690.677  ops/ms
+ByteToLongBenchmark.byteBufferReusableMethod        thrpt    5   329182.835 ±  19997.174  ops/ms
+ByteToLongBenchmark.stackOverflow27610608Unrolled   thrpt    5   802661.975 ±   4791.386  ops/ms
+ByteToLongBenchmark.stackOverflow29132118Loop       thrpt    5   802454.405 ±  11041.986  ops/ms
+ByteToLongBenchmark.stackOverflow29132118LoopJava8  thrpt    5   801957.668 ±  11585.242  ops/ms
+ByteToLongBenchmark.stackOverflow60456641Approach   thrpt    5   801049.324 ±  24973.042  ops/ms
+ByteToLongBenchmark.unrolledLittleEndian            thrpt    5   786972.212 ± 124663.965  ops/ms
+ByteToLongBenchmark.userCurrentApproach             thrpt    5   804078.365 ±   5235.128  ops/ms
