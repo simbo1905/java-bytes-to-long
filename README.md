@@ -100,8 +100,8 @@ _Results from Run_20250720_131926.txt, commit 2b2fd01127bcccbb42d41c83237c579440
 
 ```mermaid
 xychart-beta
-    title "Benchmark Results (ops/ms) with Error Margins"
-    x-axis ["ByteBuffer LE", "ByteBuffer", "Reusable Buffer", "SO 60456641", "SO 29132118 Loop", "SO 29132118 Java8", "SO 27610608", "Current Approach", "Unrolled LE", "BigInteger Exact", "BigInteger"]
+    title "Benchmark Results (operations per millisecond)"
+    x-axis ["ByteBuffer LE", "ByteBuffer", "Reusable", "SO-60456641", "SO-29132118", "SO-29132118-J8", "SO-27610608", "Current", "Unrolled LE", "BigInt Exact", "BigInteger"]
     y-axis "Operations per millisecond" 0 --> 1800000
     bar [1687362, 1692506, 329183, 801049, 802454, 801958, 802662, 804078, 786972, 84224, 64563]
 ```
