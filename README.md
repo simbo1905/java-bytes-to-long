@@ -1,26 +1,29 @@
 # Complete Java Maven JMH Benchmark Project for `Byte[]` to `Long` Conversion
 
-This project benchmarks different methods for converting a byte array of 8 elements to a `long` value in Java. It directly addresses the StackOverflow question about finding the fastest conversion method and uses the latest available versions of all dependencies and plugins.
+This project benchmarks different methods for converting a byte array of 8 elements to a `long` value in Java. It directly addresses the StackOverflow question [Fastest way to convert an byte[8] Array to long](https://stackoverflow.com/questions/64229552/fastest-way-to-convert-an-byte8-to-long) about finding the fastest conversion method and uses the latest available versions of all dependencies and plugins.
 
-**Unix/Linux/macOS**:
+### **The Definitive Answer**
 
-```bash
-chmod +x *.sh
-./run-benchmark.sh
+**Use `ByteBuffer.wrap(bytes).getLong()`** for `byte[8]` to `long` conversion:
+
+```java
+// Best approach - fast, safe, and clear
+public static long bytesToLong(byte[] bytes) {
+    return ByteBuffer.wrap(bytes).getLong();
+}
+
+// With explicit endianness (if needed)
+public static long bytesToLongLittleEndian(byte[] bytes) {
+    return ByteBuffer.wrap(bytes).order(ByteOrder.LITTLE_ENDIAN).getLong();
+}
 ```
 
-**Windows**:
+because:
 
-```cmd
-run-benchmark.bat
-```
-
-**Manual Execution**:
-
-```bash
-mvn clean package
-java -jar target/benchmarks.jar
-```
+- ✅ **Fastest Performance**: 2x+ faster than any manual implementation
+- ✅ **Thread Safe**: No shared state or synchronization issues
+- ✅ **Endianness Control**: Explicit big-endian/little-endian handling
+- ✅ **Maintainable**: Simple, readable, and relies on battle-tested JDK code
 
 ## 📊 Benchmark Results
 
@@ -82,29 +85,6 @@ gantt
 | 11   | BIG  | BigInteger `longValue()`                  | `bigIntegerMethod`                  | 64,563         | 9,963     |
 
 The test uses the byte array `{0xCA, 0xFE, 0xBA, 0xBE, 0xDE, 0xAD, (byte) 0xBE, (byte) 0xEF}` which produces the expected result `-3819410105021120273L` for big-endian interpretation.
-
-### **The Definitive Answer**
-
-**Use `ByteBuffer.wrap(bytes).getLong()`** for `byte[8]` to `long` conversion:
-
-```java
-// Best approach - fast, safe, and clear
-public static long bytesToLong(byte[] bytes) {
-    return ByteBuffer.wrap(bytes).getLong();
-}
-
-// With explicit endianness (if needed)
-public static long bytesToLongLittleEndian(byte[] bytes) {
-    return ByteBuffer.wrap(bytes).order(ByteOrder.LITTLE_ENDIAN).getLong();
-}
-```
-
-because:
-
-✅ **Fastest Performance**: 2x+ faster than any manual implementation
-✅ **Thread Safe**: No shared state or synchronization issues
-✅ **Endianness Control**: Explicit big-endian/little-endian handling
-✅ **Maintainable**: Simple, readable, and relies on battle-tested JDK code
 
 ## Benchmark Method Implementations
 
@@ -267,6 +247,28 @@ private static long bigIntegerExactMethod(byte[] bytes) {
 private static long bigIntegerMethod(byte[] bytes) {
     return new BigInteger(bytes).longValue();
 }
+```
+
+## Running The Suite
+
+**Unix/Linux/macOS**:
+
+```bash
+chmod +x *.sh
+./run-benchmark.sh
+```
+
+**Windows**:
+
+```cmd
+run-benchmark.bat
+```
+
+**Manual Execution**:
+
+```bash
+mvn clean package
+java -jar target/benchmarks.jar
 ```
 
 ## References
