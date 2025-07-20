@@ -289,6 +289,6 @@ java -jar target/benchmarks.jar
 3. **[SO 60456641](https://stackoverflow.com/a/60456641)**
     - High/low int combination
 4. **[Baeldung](https://www.baeldung.com/java-byte-array-to-number)**
-    - `BigInteger.longValue()` implementation matches [article]
+    - `BigInteger.longValue()` implementation
 
 End
