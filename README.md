@@ -4,13 +4,13 @@ This project benchmarks different methods for converting a byte array of 8 eleme
 
 ## Project Overview
 
-The benchmark project includes **10 different conversion methods**, comparing your current approach against various StackOverflow solutions plus additional methods including BigInteger approaches. All methods are properly validated to ensure they produce identical results before performance measurement begins.
+The benchmark project includes **11 different conversion methods**, comparing various StackOverflow solutions against `ByteBuffer`, `BigInteger`, and manual bit-shifting approaches. All methods are properly validated to ensure they produce identical results before performance measurement begins.
 
 ## Benchmarked Methods
 
 ### Core StackOverflow Solutions
 
-**LLM Generated Approach**: The MSB-first loop method you're currently using for SHA256 hash signature processing:
+**LLM Generated Approach**: The MSB-first loop method:
 
 ```java
 static long bytesToLong(byte[] b, int offset) {
@@ -51,7 +51,6 @@ The project uses the most current versions as of July 2025:
 - **Java Target**: 21
 - **Maven**: Requires 3.6.3+
 
-
 ## Project Structure and Usage
 
 The complete project package includes cross-platform scripts, comprehensive documentation, and validation classes:
@@ -80,63 +79,225 @@ java -jar target/benchmarks.jar
 
 ## 📊 Benchmark Results
 
-Here are the actual benchmark results from running the JMH tests:
-
-| Benchmark                                | Mode  | Cnt | Score        | Error      | Units  |
-|------------------------------------------|-------|-----|--------------|------------|--------|
-| ByteToLongBenchmark.bigIntegerExactMethod | thrpt | 5   | 84224.062    | 69008.005  | ops/ms |
-| ByteToLongBenchmark.bigIntegerMethod     | thrpt | 5   | 64563.148    | 9962.841   | ops/ms |
-| ByteToLongBenchmark.byteBufferLittleEndian | thrpt | 5   | 1687362.073  | 61722.792  | ops/ms |
-| ByteToLongBenchmark.byteBufferMethod     | thrpt | 5   | 1692506.030  | 7690.677   | ops/ms |
-| ByteToLongBenchmark.byteBufferReusableMethod | thrpt | 5   | 329182.835   | 19997.174  | ops/ms |
-| ByteToLongBenchmark.stackOverflow27610608Unrolled | thrpt | 5   | 802661.975   | 4791.386   | ops/ms |
-| ByteToLongBenchmark.stackOverflow29132118Loop | thrpt | 5   | 802454.405   | 11041.986  | ops/ms |
-| ByteToLongBenchmark.stackOverflow29132118LoopJava8 | thrpt | 5   | 801957.668   | 11585.242  | ops/ms |
-| ByteToLongBenchmark.stackOverflow60456641Approach | thrpt | 5   | 801049.324   | 24973.042  | ops/ms |
-| ByteToLongBenchmark.unrolledLittleEndian | thrpt | 5   | 786972.212   | 124663.965 | ops/ms |
-| ByteToLongBenchmark.userCurrentApproach  | thrpt | 5   | 804078.365   | 5235.128   | ops/ms |
+The benchmark results show that `ByteBuffer` methods are significantly faster than any other approach. The following chart and table summarize the performance, with scores representing throughput in operations per millisecond (higher is better).
 
 _Results from Run_20250720_131926.txt, commit 2b2fd01127bcccbb42d41c83237c579440fbfd7b_
 
 ```mermaid
-xychart-beta
-    title "Benchmark Results (operations per millisecond)"
-    x-axis ["BIG", "BIX", "RBF", "ULE", "S60", "S29", "S29J", "S27", "CUR", "BBF", "BLE", "BBB"]
-    y-axis "Operations per millisecond" 0 --> 1800000
-    bar [64563, 84224, 329183, 786972, 801049, 802454, 801958, 802662, 804078, 1687362, 1692506]
+gantt
+    title Benchmark Results (ops/ms) with Error Margins
+    dateFormat X
+    axisFormat %s
+
+    section ByteBuffer
+    ByteBuffer (BBB)       : 0, 1692506
+    Error ±7691          : 1684815, 1700197
+    ByteBuffer LE (BLE)    : 0, 1687362
+    Error ±61723         : 1625639, 1749085
+    Reusable Buffer (RBF)  : 0, 329183
+    Error ±19997         : 309186, 349180
+
+    section Manual Implementations
+    Manual BE Loop (MBL)   : 0, 804078
+    Error ±5235          : 798843, 809313
+    Unrolled LE (ULE)      : 0, 786972
+    Error ±124664        : 662308, 911636
+
+    section Stack Overflow
+    SO 27610608 (S27)      : 0, 802662
+    Error ±4791          : 797871, 807453
+    SO 29132118 Java8 (S29J): 0, 801958
+    Error ±11585         : 790373, 813543
+    SO 29132118 Loop (S29) : 0, 802454
+    Error ±11042         : 791412, 813496
+    SO 60456641 (S60)      : 0, 801049
+    Error ±24973         : 776076, 826022
+
+    section BigInteger
+    BigInteger Exact (BIX) : 0, 84224
+    Error ±69008         : 15216, 153232
+    BigInteger (BIG)       : 0, 64563
+    Error ±9963          : 54600, 74526
 ```
-
-### Test Code Legend
-
-| Code | Test Name | Description |
-|------|-----------|-------------|
-| BIG | bigIntegerMethod | BigInteger with longValue() |
-| BIX | bigIntegerExactMethod | BigInteger with longValueExact() |
-| RBF | byteBufferReusableMethod | Reusable ByteBuffer (requires clearing) |
-| ULE | unrolledLittleEndian | Unrolled little-endian bit shifting |
-| S60 | stackOverflow60456641Approach | High/low int approach with toUnsignedLong |
-| S29 | stackOverflow29132118Loop | Loop with left shift |
-| S29J | stackOverflow29132118LoopJava8 | Java 8+ version with constants |
-| S27 | stackOverflow27610608Unrolled | Fast unrolled big-endian bit shifting |
-| CUR | userCurrentApproach | Current MSB-first loop approach |
-| BLE | byteBufferLittleEndian | ByteBuffer little-endian |
-| BBB | byteBufferMethod | ByteBuffer big-endian (new buffer each time) |
 
 ### Performance Ranking (Fastest to Slowest)
 
-| Rank | Code | Java Method Name | Description | File Location |
-|------|------|------------------|-------------|---------------|
-| 1 | BBB | byteBufferMethod | ByteBuffer big-endian (new buffer each time) | ByteToLongBenchmark.java:158 |
-| 2 | BLE | byteBufferLittleEndian | ByteBuffer little-endian | ByteToLongBenchmark.java:249 |
-| 3 | CUR | userCurrentApproach | Current MSB-first loop approach | ByteToLongBenchmark.java:77 |
-| 4 | S27 | stackOverflow27610608Unrolled | Fast unrolled big-endian bit shifting | ByteToLongBenchmark.java:140 |
-| 5 | S29J | stackOverflow29132118LoopJava8 | Java 8+ version with constants | ByteToLongBenchmark.java:122 |
-| 6 | S29 | stackOverflow29132118Loop | Loop with left shift | ByteToLongBenchmark.java:104 |
-| 7 | S60 | stackOverflow60456641Approach | High/low int approach with toUnsignedLong | ByteToLongBenchmark.java:85 |
-| 8 | ULE | unrolledLittleEndian | Unrolled little-endian bit shifting | ByteToLongBenchmark.java:231 |
-| 9 | RBF | byteBufferReusableMethod | Reusable ByteBuffer (requires clearing) | ByteToLongBenchmark.java:167 |
-| 10 | BIX | bigIntegerExactMethod | BigInteger with longValueExact() (safer) | ByteToLongBenchmark.java:213 |
-| 11 | BIG | bigIntegerMethod | BigInteger with longValue() (can truncate) | ByteToLongBenchmark.java:203 |
+| Rank | Code | Description                               | Benchmark Method                    | Score (ops/ms) | Error (±) |
+|------|------|-------------------------------------------|-------------------------------------|----------------|-----------|
+| 1    | BBB  | ByteBuffer Big-Endian (New Buffer)        | `byteBufferMethod`                  | 1,692,506      | 7,691     |
+| 2    | BLE  | ByteBuffer Little-Endian                  | `byteBufferLittleEndian`            | 1,687,362      | 61,723    |
+| 3    | MBL  | Manual Big-Endian Loop                    | `manualBigEndianShiftLoop`          | 804,078        | 5,235     |
+| 4    | S27  | Unrolled Big-Endian Shift (SO:27610608)   | `stackOverflow27610608Unrolled`     | 802,662        | 4,791     |
+| 5    | S29  | Loop with Left Shift (SO:29132118)        | `stackOverflow29132118Loop`         | 802,454        | 11,042    |
+| 6    | S29J | Loop with Left Shift, Java 8+ (SO:29132118) | `stackOverflow29132118LoopJava8`    | 801,958        | 11,585    |
+| 7    | S60  | High/Low Int Approach (SO:60456641)       | `stackOverflow60456641Approach`     | 801,049        | 24,973    |
+| 8    | ULE  | Unrolled Little-Endian Shift              | `unrolledLittleEndian`              | 786,972        | 124,664   |
+| 9    | RBF  | Reusable ByteBuffer                       | `byteBufferReusableMethod`          | 329,183        | 19,997    |
+| 10   | BIX  | BigInteger `longValueExact()`             | `bigIntegerExactMethod`             | 84,224         | 69,008    |
+| 11   | BIG  | BigInteger `longValue()`                  | `bigIntegerMethod`                  | 64,563         | 9,963     |
+
+## Benchmark Method Implementations
+
+Below are the code snippets for each benchmarked method, ordered by performance.
+
+### 1. `byteBufferMethod` (BBB)
+
+**Description**: Wraps the byte array in a new `ByteBuffer` and reads the `long` value. This is the fastest and recommended approach.
+**Source**: Standard JDK
+
+```java
+private static long byteBufferMethod(byte[] bytes) {
+    return ByteBuffer.wrap(bytes).order(ByteOrder.BIG_ENDIAN).getLong();
+}
+```
+
+### 2. `byteBufferLittleEndian` (BLE)
+
+**Description**: Same as the fastest method but specifies little-endian byte order.
+**Source**: Standard JDK
+
+```java
+private static long byteBufferLittleEndian(byte[] bytes) {
+    return ByteBuffer.wrap(bytes).order(ByteOrder.LITTLE_ENDIAN).getLong();
+}
+```
+
+### 3. `manualBigEndianShiftLoop` (MBL)
+
+**Description**: A manual loop that builds the `long` by shifting and OR-ing each byte from most-significant to least-significant.
+**Source**: Manual Implementation
+
+```java
+private static long manualBigEndianShiftLoop(byte[] b, int offset) {
+    long result = 0;
+    for (int i = 0; i < 8; i++) {
+        result |= ((long) b[offset + i] & 0xff) << (56 - (i * 8));
+    }
+    return result;
+}
+```
+
+### 4. `stackOverflow27610608Unrolled` (S27)
+
+**Description**: An unrolled version of the manual big-endian bit-shifting approach.
+**Source**: [StackOverflow Answer 27610608](https://stackoverflow.com/a/27610608/5647659)
+
+```java
+private static long stackOverflow27610608Unrolled(byte[] b) {
+    return ((long) b[0] << 56)
+         | ((long) b[1] & 0xff) << 48
+         | ((long) b[2] & 0xff) << 40
+         | ((long) b[3] & 0xff) << 32
+         | ((long) b[4] & 0xff) << 24
+         | ((long) b[5] & 0xff) << 16
+         | ((long) b[6] & 0xff) << 8
+         | ((long) b[7] & 0xff);
+}
+```
+
+### 5. `stackOverflow29132118Loop` (S29)
+
+**Description**: A loop that left-shifts the result and ORs the next byte.
+**Source**: [StackOverflow Answer 29132118](https://stackoverflow.com/a/29132118/5647659)
+
+```java
+private static long stackOverflow29132118Loop(byte[] b) {
+    long result = 0;
+    for (int i = 0; i < 8; i++) {
+        result <<= 8;
+        result |= (b[i] & 0xFF);
+    }
+    return result;
+}
+```
+
+### 6. `stackOverflow29132118LoopJava8` (S29J)
+
+**Description**: A slightly modernized version of the previous loop using `Long.BYTES` and `Byte.SIZE`.
+**Source**: [StackOverflow Answer 29132118](https://stackoverflow.com/a/29132118/5647659)
+
+```java
+private static long stackOverflow29132118LoopJava8(byte[] b) {
+    long result = 0;
+    for (int i = 0; i < Long.BYTES; i++) {
+        result <<= Byte.SIZE;
+        result |= (b[i] & 0xFF);
+    }
+    return result;
+}
+```
+
+### 7. `stackOverflow60456641Approach` (S60)
+
+**Description**: Combines two 4-byte integers into a long.
+**Source**: [StackOverflow Answer 60456641](https://stackoverflow.com/a/60456641/5647659)
+
+```java
+private static long stackOverflow60456641Approach(byte[] bytes, int offset) {
+    return Integer.toUnsignedLong(bytesToInt(bytes, offset)) << Integer.SIZE |
+           Integer.toUnsignedLong(bytesToInt(bytes, offset + Integer.BYTES));
+}
+
+private static int bytesToInt(byte[] bytes, int offset) {
+    return (bytes[offset + Integer.BYTES - 1] & 0xFF) |
+           (bytes[offset + Integer.BYTES - 2] & 0xFF) << Byte.SIZE |
+           (bytes[offset + Integer.BYTES - 3] & 0xFF) << Byte.SIZE * 2 |
+           (bytes[offset + Integer.BYTES - 4] & 0xFF) << Byte.SIZE * 3;
+}
+```
+
+### 8. `unrolledLittleEndian` (ULE)
+
+**Description**: An unrolled manual implementation for little-endian byte order.
+**Source**: Manual Implementation
+```java
+private static long unrolledLittleEndian(byte[] b) {
+    return ((long) b[0] & 0xff)
+         | ((long) b[1] & 0xff) << 8
+         | ((long) b[2] & 0xff) << 16
+         | ((long) b[3] & 0xff) << 24
+         | ((long) b[4] & 0xff) << 32
+         | ((long) b[5] & 0xff) << 40
+         | ((long) b[6] & 0xff) << 48
+         | ((long) b[7] & 0xff) << 56;
+}
+```
+
+### 9. `byteBufferReusableMethod` (RBF)
+
+**Description**: Uses a pre-allocated, reusable `ByteBuffer`. Slower due to the overhead of state management (`clear`, `put`, `flip`).
+**Source**: Standard JDK
+
+```java
+private long byteBufferReusableMethod(byte[] bytes) {
+    reusableBuffer.clear();
+    reusableBuffer.put(bytes);
+    reusableBuffer.flip();
+    return reusableBuffer.getLong();
+}
+```
+
+### 10. `bigIntegerExactMethod` (BIX)
+
+**Description**: Uses `BigInteger` and converts to a `long` with overflow checking. It is safer but much slower.
+**Source**: [Baeldung Article](https://www.baeldung.com/java-byte-array-to-number)
+
+```java
+private static long bigIntegerExactMethod(byte[] bytes) {
+    return new BigInteger(bytes).longValueExact();
+}
+```
+
+### 11. `bigIntegerMethod` (BIG)
+
+**Description**: Uses `BigInteger` but can truncate the value if it exceeds `Long.MAX_VALUE`. This is the slowest and potentially unsafe method.
+**Source**: [Baeldung Article](https://www.baeldung.com/java-byte-array-to-number)
+
+```java
+private static long bigIntegerMethod(byte[] bytes) {
+    return new BigInteger(bytes).longValue();
+}
+```
 
 ## Validation and Safety Features
 
@@ -146,7 +307,6 @@ The benchmark includes comprehensive validation:
 - **ConversionDemo Class**: Standalone demonstration showing results from all methods
 - **BigInteger Overflow Demonstration**: Shows the difference between `longValue()` and `longValueExact()` behavior
 - **Error Checking**: Scripts include Java and Maven version validation
-
 
 ## Technical Implementation Details
 
@@ -161,51 +321,59 @@ The test uses the byte array `{0xCA, 0xFE, 0xBA, 0xBE, 0xDE, 0xAD, (byte) 0xBE, 
 
 ## Answering the StackOverflow Question
 
-This benchmark provides empirical data to definitively answer ["Fastest way to convert an byte[8] to long"](https://stackoverflow.com/questions/64229552/fastest-way-to-convert-an-byte8-to-long). The results show a clear winner and reveal important insights about JVM optimization. Do not attempt to writee C like code when yuou can use a JVM optimized method like `ByteBuffer.wrap(bytes).getLong()`
+This benchmark provides empirical data to definitively answer ["Fastest way to convert an byte[8] to long"](https://stackoverflow.com/questions/64229552/fastest-way-to-convert-an-byte8-to-long). The results show a clear winner and reveal important insights about JVM optimization. Do not attempt to write C-like code when you can use a JVM-optimized method like `ByteBuffer.wrap(bytes).getLong()`.
 
 ### **The Clear Winner: ByteBuffer Methods**
 
-The benchmark results demonstrate that **ByteBuffer methods are dramatically faster** than any hand-written Java code:
+The benchmark results demonstrate that **`ByteBuffer` methods are dramatically faster** than any hand-written Java code:
 
-- **ByteBuffer.wrap(bytes).getLong()**: 1,692,506 ops/ms (fastest)
-- **ByteBuffer little-endian**: 1,687,362 ops/ms (second fastest)
-- **Best manual implementation**: 804,078 ops/ms (the C like unrolled)
+- **`ByteBuffer.wrap(bytes).getLong()`**: 1,692,506 ops/ms (fastest)
+- **Best manual implementation**: 804,078 ops/ms (Manual Big-Endian Loop)
 
-**ByteBuffer methods are more than 2x faster** than the best manual Java implementations.
+**`ByteBuffer` is more than 2x faster** than the best manual Java implementation.
 
 ### **Why ByteBuffer Dominates: JVM Architecture & Native Optimizations**
 
 The massive performance difference isn't coincidental—it reflects fundamental advantages of using JDK-provided methods:
 
 #### **1. Native Code Optimizations**
-ByteBuffer's `getLong()` method is implemented with highly optimized native code that directly leverages:
+
+`ByteBuffer`'s `getLong()` method may be implemented with highly optimized native code that directly leverages (LLM generated answer use with caution):
+
 - **Architecture-specific CPU instructions** for multi-byte operations
 - **Memory alignment optimizations** that avoid byte-by-byte processing
 - **SIMD instructions** on supported architectures
-- **Direct memory access patterns** optimized for the target CPU
+- **Direct memory access patterns** optimized for the target CPU on 64bit hosts
 
 #### **2. JVM Bounds Checking Elimination**
-While your manual Java code *appears* fast and "C-like," it still suffers from:
-- **Array bounds checking** on every `b[offset + i]` access
-- **Individual byte operations** that can't be optimized into bulk operations
-- **JIT compilation limitations** when trying to optimize complex bit manipulation loops
 
-ByteBuffer methods bypass many of these checks through:
+While manual Java code *appears* fast and "C-like," it still suffers from:
+
+- **Array bounds checking** on every `b[offset + i]` access
+- **Individual byte operations** that may not be optimized into bulk operations
+- **Muli-teir compilation limitations** when trying to optimize complex bit manipulation loops
+
+`ByteBuffer` methods bypass many of these checks through:
+
 - **Bulk operation intrinsics** that the JVM recognizes and optimizes specially
 - **Bounds checking consolidation** that validates once rather than per-byte
-- **Direct native method calls** that skip Java-level safety overhead
+- **Direct native method calls** that skip user code Java-level safety overhead while having safety baked into them
 
 #### **3. Endianness Handling**
-ByteBuffer provides proper endianness handling without performance penalties:
+
+`ByteBuffer` provides proper endianness handling without performance penalties:
+
 - **Hardware-optimized byte swapping** when needed
 - **Native endianness detection** and optimal code paths
 - **Zero-copy operations** when byte order matches system architecture
 
 ### **The Reusable ByteBuffer Paradox**
 
-Interestingly, the reusable ByteBuffer approach (329,183 ops/ms) is significantly slower than creating new buffers. This demonstrates that:
+Interestingly, the reusable `ByteBuffer` approach (329,183 ops/ms) is significantly slower than creating new buffers. This demonstrates that:
+
 - **Buffer allocation overhead** is minimal compared to the native optimization benefits
-- **Buffer state management** (clear/flip operations) introduces overhead
+
+- **Buffer state management** (`clear`/`flip` operations) introduces overhead
 - **JVM allocation optimizations** make temporary objects very cheap
 
 ### **Why Manual Implementations Fall Short**
@@ -219,20 +387,14 @@ Even the most optimized manual Java implementations (like the unrolled bit-shift
 
 ### **The Definitive Answer**
 
-**Use `ByteBuffer.wrap(bytes).getLong()`** for byte[8] to long conversion because:
+**Use `ByteBuffer.wrap(bytes).getLong()`** for `byte[8]` to `long` conversion because:
 
-✅ **Fastest Performance**: 2x+ faster than any manual implementation  
-✅ **Thread Safe**: No shared state or synchronization issues  
-✅ **Endianness Control**: Explicit big-endian/little-endian handling  
-✅ **Bounds Safe**: Proper array bounds validation  
-✅ **Architecture Optimized**: Leverages native CPU instructions  
-✅ **Maintainable**: Simple, readable, and relies on battle-tested JDK code  
-
-### **When to Use Alternatives**
-
-- **BigInteger methods**: Only when you need overflow detection or arbitrary precision
-- **Manual implementations**: Never for performance—the JDK implementation is always superior
-- **Reusable ByteBuffer**: Avoid unless memory allocation is somehow constrained
+✅ **Fastest Performance**: 2x+ faster than any manual implementation
+✅ **Thread Safe**: No shared state or synchronization issues
+✅ **Endianness Control**: Explicit big-endian/little-endian handling
+✅ **Bounds Safe**: Extra-languistic array bounds validation
+✅ **Architecture Optimized**: Map leverages native CPU instructions
+✅ **Maintainable**: Simple, readable, and relies on battle-tested JDK code
 
 ### **Code Recommendation**
 
@@ -248,5 +410,4 @@ public static long bytesToLongLittleEndian(byte[] bytes) {
 }
 ```
 
-**Bottom Line**: The JVM's native optimizations for ByteBuffer operations far exceed what's possible with manual Java code. Use the standard library—it's not just safer and cleaner, it's dramatically faster.
-```
+**Bottom Line**: The JVM's native optimizations for `ByteBuffer` operations far exceed what's possible with manual Java code. Use the standard library—it's not just safer and cleaner, it's dramatically faster.

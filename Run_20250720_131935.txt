@@ -368,7 +368,7 @@ Result "org.sample.ByteToLongBenchmark.unrolledLittleEndian":
 # Timeout: 10 min per iteration
 # Threads: 1 thread, will synchronize iterations
 # Benchmark mode: Throughput, ops/time
-# Benchmark: org.sample.ByteToLongBenchmark.userCurrentApproach
+# Benchmark: org.sample.ByteToLongBenchmark.manualBigEndianShiftLoop
 
 # Run progress: 90.91% complete, ETA 00:00:10
 # Fork: 1 of 1
@@ -388,7 +388,7 @@ Iteration   4: 803833.453 ops/ms
 Iteration   5: 805206.759 ops/ms
 
 
-Result "org.sample.ByteToLongBenchmark.userCurrentApproach":
+Result "org.sample.ByteToLongBenchmark.manualBigEndianShiftLoop":
   804078.365 ±(99.9%) 5235.128 ops/ms [Average]
   (min, avg, max) = (801823.341, 804078.365, 805206.759), stdev = 1359.546
   CI (99.9%): [798843.237, 809313.493] (assumes normal distribution)
@@ -419,4 +419,4 @@ ByteToLongBenchmark.stackOverflow29132118Loop       thrpt    5   802454.405 ±  
 ByteToLongBenchmark.stackOverflow29132118LoopJava8  thrpt    5   801957.668 ±  11585.242  ops/ms
 ByteToLongBenchmark.stackOverflow60456641Approach   thrpt    5   801049.324 ±  24973.042  ops/ms
 ByteToLongBenchmark.unrolledLittleEndian            thrpt    5   786972.212 ± 124663.965  ops/ms
-ByteToLongBenchmark.userCurrentApproach             thrpt    5   804078.365 ±   5235.128  ops/ms
+ByteToLongBenchmark.manualBigEndianShiftLoop             thrpt    5   804078.365 ±   5235.128  ops/ms

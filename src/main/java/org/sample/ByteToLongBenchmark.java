@@ -44,7 +44,7 @@ public class ByteToLongBenchmark {
         reusableBuffer = ByteBuffer.allocate(8);
 
         // Verify all methods produce the same result
-        long result1 = userCurrentApproach(TEST_BYTES, 0);
+        long result1 = manualBigEndianShiftLoop(TEST_BYTES, 0);
         long result2 = stackOverflow60456641Approach(TEST_BYTES, 0);
         long result3 = stackOverflow29132118Loop(TEST_BYTES);
         long result4 = stackOverflow29132118LoopJava8(TEST_BYTES);
@@ -72,12 +72,12 @@ public class ByteToLongBenchmark {
      * User's current approach - loop with bit shifting from MSB
      */
     @Benchmark
-    public void userCurrentApproach(Blackhole bh) {
-        long result = userCurrentApproach(TEST_BYTES, 0);
+    public void manualBigEndianShiftLoop(Blackhole bh) {
+        long result = manualBigEndianShiftLoop(TEST_BYTES, 0);
         bh.consume(result);
     }
 
-    private static long userCurrentApproach(byte[] b, int offset) {
+    private static long manualBigEndianShiftLoop(byte[] b, int offset) {
         long result = 0;
         for (int i = 0; i < 8; i++) {
             result |= ((long) b[offset + i] & 0xff) << (56 - (i * 8));
