@@ -99,38 +99,36 @@ Here are the actual benchmark results from running the JMH tests:
 _Results from Run_20250720_131926.txt, commit 2b2fd01127bcccbb42d41c83237c579440fbfd7b_
 
 ```mermaid
-gantt
-    title Benchmark Results (ops/ms) with Error Margins
-    dateFormat X
-    axisFormat %s
-    
-    section ByteBuffer
-    ByteBuffer LE     : 0, 1687362.073
-    Error ±61722.792  : 1625639.281, 1749084.864
-    ByteBuffer       : 0, 1692506.030
-    Error ±7690.677   : 1684815.353, 1700196.707
-    Reusable Buffer  : 0, 329182.835
-    Error ±19997.174  : 309185.660, 349180.009
-    
-    section Stack Overflow
-    SO 60456641      : 0, 801049.324
-    Error ±24973.042  : 776076.281, 826022.366
-    SO 29132118 Loop : 0, 802454.405
-    Error ±11041.986  : 791412.418, 813496.391
-    SO 29132118 Java8: 0, 801957.668
-    Error ±11585.242  : 790372.426, 813542.911
-    SO 27610608      : 0, 802661.975
-    Error ±4791.386   : 797870.589, 807453.361
-    
-    section User Methods
-    Current Approach : 0, 804078.365
-    Error ±5235.128   : 798843.237, 809313.493
-    
-    section BigInteger
-    BigInteger Exact : 0, 84224.062
-    Error ±69008.005  : 15216.057, 153232.067
-    BigInteger      : 0, 64563.148
-    Error ±9962.841   : 54600.307, 74525.989
+graph LR
+    subgraph "BigInteger"
+        A["bigIntegerExactMethod (84,224)"]
+        B["bigIntegerMethod (64,563)"]
+    end
+    subgraph "ByteBuffer"
+        C["byteBufferLittleEndian (1,687,362)"]
+        D["byteBufferMethod (1,692,506)"]
+        E["byteBufferReusableMethod (329,182)"]
+    end
+    subgraph "Stack Overflow & User"
+        F["stackOverflow27610608Unrolled (802,661)"]
+        G["stackOverflow29132118Loop (802,454)"]
+        H["stackOverflow29132118LoopJava8 (801,957)"]
+        I["stackOverflow60456641Approach (801,049)"]
+        J["unrolledLittleEndian (786,972)"]
+        K["userCurrentApproach (804,078)"]
+    end
+
+    style A fill:#d15a5a
+    style B fill:#d15a5a
+    style C fill:#5ad16d
+    style D fill:#5ad16d
+    style E fill:#5ad16d
+    style F fill:#5a8cd1
+    style G fill:#5a8cd1
+    style H fill:#5a8cd1
+    style I fill:#5a8cd1
+    style J fill:#5a8cd1
+    style K fill:#c8d15a
 ```
 
 ## Validation and Safety Features
