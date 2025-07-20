@@ -2,7 +2,7 @@
 
 This project benchmarks different methods for converting a byte array of 8 elements to a `long` value in Java. It directly addresses the StackOverflow question [Fastest way to convert an byte[8] Array to long](https://stackoverflow.com/questions/64229552/fastest-way-to-convert-an-byte8-to-long) about finding the fastest conversion method and uses the latest available versions of all dependencies and plugins.
 
-### **The Definitive Answer**
+## **The Definitive Answer**
 
 **Use `ByteBuffer.wrap(bytes).getLong()`** for `byte[8]` to `long` conversion:
 
