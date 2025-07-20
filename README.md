@@ -27,7 +27,16 @@ Because:
 
 ## 📊 Benchmark Results
 
-The benchmark results show that `ByteBuffer` methods are significantly faster than any other approach. The following chart and table summarize the performance, with scores representing throughput in operations per millisecond (higher is better).
+The benchmark results show that `ByteBuffer` methods are significantly faster than any other approach. The following chart and table summarize the performance, with scores representing throughput in operations per millisecond (higher is better). The Java version used:
+
+```shell
+% java --version
+java 24 2025-03-18
+Java(TM) SE Runtime Environment (build 24+36-3646)
+Java HotSpot(TM) 64-Bit Server VM (build 24+36-3646, mixed mode, sharing)
+```
+
+I am running on a MacBook M1 with 8GB RAM, macOS 15.5 (Sequoia). YMMV may vary based on your hardware and JVM settings. Yet the results are so convincing and best technique is so easy it would be very hard to beat.
 
 Results from Run_20250720_131926.txt, commit 2b2fd01127bcccbb42d41c83237c579440fbfd7b are:
 
